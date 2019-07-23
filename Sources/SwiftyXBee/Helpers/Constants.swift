@@ -2,7 +2,7 @@
 //  Constants.swift
 //  SwiftyXBee
 //
-//  Created by Samuel Cornejo on 7/23/19.
+//  Created by Samuel Cornejo on 7/13/19.
 //
 
 import Foundation
@@ -26,4 +26,18 @@ public enum EscapedBytes: UInt8, CaseIterable {
     case escape = 0x7D
     case xon = 0x11
     case xoff = 0x13
+}
+
+public enum FrameType: UInt8 {
+    case transmitRequest = 0x10
+    case transmitStatus = 0x8B
+    case receivePacket = 0x90
+}
+
+// ZigBee Receive Packet Frame
+public enum ReceiveOptions: UInt8 {
+    case acknowledgedPacket = 0x01
+    case broadcastPacket = 0x02
+    case encryptedPacket = 0x20
+    case endDevicePacket = 0x40
 }
