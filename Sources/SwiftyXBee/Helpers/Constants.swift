@@ -41,3 +41,16 @@ public enum ReceiveOptions: UInt8 {
     case encryptedPacket = 0x20
     case endDevicePacket = 0x40
 }
+
+// ZigBee Transmit Request Frame
+public enum FrameId: UInt8 {
+    case sendNoACK = 0x00
+    case sendACK = 0x01
+}
+
+public enum TransmissionOption: UInt8 {
+    case unusedBits = 0x00
+    case disableACK = 0x01
+    case enableAPSEncryption = 0x20
+    case extendedTransmissionTimeout = 0x40
+}
