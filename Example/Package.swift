@@ -7,7 +7,7 @@ let package = Package(
     name: "SwiftyXBeeExample",
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(path: "../"),
+        .package(url: "https://github.com/samco182/SwiftyXBee", from: "1.0.0"),
         
     ],
     targets: [
