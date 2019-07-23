@@ -59,6 +59,18 @@ public class SwiftyXBee {
         return try APIFrame(rawData: rawData, frameData: frameData)
     }
     
+    /// Reads the transmission status after issuing a Transmit Request API Frame.
+    ///
+    /// - Returns: A Transmit Status API Frame
+    /// - Throws: Any error while reading the transmit status packet
+    /// - Note: If delivery status is 0x00, the transmission was successfully delivered to the destination address.
+    ///         Otherwise, the number received in this byte will indicate the kind of issue that prevented the delivery.
+    public func readTransmitStatus() throws -> APIFrame<ZigBeeTransmitStatusData> {
+        let rawData = try readSerialData()
+        let frameData = ZigBeeTransmitStatusData(rawData: rawData)
+        return try APIFrame(rawData: rawData, frameData: frameData)
+    }
+    
     /// Reads the serial port.
     ///
     /// - Returns: All the available data in the serial port

@@ -54,3 +54,32 @@ public enum TransmissionOption: UInt8 {
     case enableAPSEncryption = 0x20
     case extendedTransmissionTimeout = 0x40
 }
+
+// ZigBee Transmit Status
+public enum DeliveryStatus: UInt8 {
+    case success = 0x00
+    case macACKFailure = 0x01
+    case ccaFailure = 0x02
+    case invalidDestinationEndpoint = 0x15
+    case networkACKFailure = 0x21
+    case notJoinedToNetwork = 0x22
+    case selfAddressed = 0x23
+    case addressNotFound = 0x24
+    case routeNotFound = 0x25
+    case broadcastFailedToHear = 0x26
+    case invalidBindingTableIndex = 0x2B
+    case resourceError = 0x2C
+    case attemptedBroadcastWithAPS = 0x2D
+    case attemptedUnicastWithAPS = 0x2E
+    case lackOfFreeBuffer = 0x32
+    case dataPayloadTooLarge = 0x74
+    case indirectMessageUnrequested = 0x75
+}
+
+public enum DiscoveryStatus: UInt8 {
+    case noDiscoveryOverhead = 0x00
+    case addressDiscovery = 0x01
+    case routeDiscovery = 0x02
+    case addressAndRoute = 0x03
+    case extendedTimeoutDiscovery = 0x40
+}
