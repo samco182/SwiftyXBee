@@ -36,12 +36,15 @@ public class SwiftyXBee {
     /// - Parameters:
     ///   - deviceAddress: 64-bit address of the destination device
     ///   - networkAddress: 16-bit network address of the destination device
+    ///   - frameId: The packet's frame id
+    ///   - broadcastRadius: The maximum number of hops a broadcast transmission can take
+    ///   - transmissionOption: Transmission option
     ///   - message: The data to be sent to the destination device
     /// - Note:
     ///   - 0x0000000000000000 is the reserved 64-bit address for the coordinator.
     ///   - 0xFFFE is the default address if network address is unknown, or if sending a broadcast.
-    public func sendTransmitRequest(to deviceAddress: DeviceAddress, network networkAddress: NetworkAddress, message: String) {
-        let frameData = ZigBeeTransmitRequestData(destinationDeviceAddress: deviceAddress, destinationNetworkAddress: networkAddress, transmissionData: message)
+    public func sendTransmitRequest(to deviceAddress: DeviceAddress, network networkAddress: NetworkAddress, frameId: FrameId = .sendACK, broadcastRadius: UInt8 = 0x00, transmissionOption: TransmissionOption = .unusedBits, message: String) {
+        let frameData = ZigBeeTransmitRequestData(frameId: frameId, destinationDeviceAddress: deviceAddress, destinationNetworkAddress: networkAddress, broadcastRadius: broadcastRadius, transmissionOption: transmissionOption, transmissionData: message)
         let packetLength = FrameLength(for: frameData.serialData)
         let checksum = Checksum(for: frameData.serialData)
         let apiFrame = APIFrame<ZigBeeTransmitRequestData>(length: packetLength, frameData: frameData, checksum: checksum)
