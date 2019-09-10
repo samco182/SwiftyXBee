@@ -100,7 +100,7 @@ let message = "This is my message to send!"
 
 xbee.sendTransmitRequest(to: deviceAddress, network: networkAddress, message: message)
 ```
-When a Transmit Request completes, the device sends a **Transmit Status** packet out of the serial interface. This message indicates if the Transmit Request was successful or if it failed. If you want to make sure your packet was correctly delivered, call the following code:
+When a Transmit Request completes, if configured on the request's Frame Id, the receiver device will send a **Transmit Status** packet out of the serial interface. This message indicates if the Transmit Request was successful or if it failed. If you want to make sure your packet was correctly delivered, call the following code:
 ```swift
 do {
     let transmitStatus = try xbee.readTransmitStatus()
