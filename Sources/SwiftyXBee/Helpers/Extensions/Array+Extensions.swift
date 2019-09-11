@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension Array where Element == UInt8 {
+public extension Array where Element == UInt8 {
     /// Adds up all the elements in an array of UInt8.
     ///
     /// - Returns: The sum of all the elements

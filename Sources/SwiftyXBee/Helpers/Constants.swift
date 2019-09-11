@@ -55,7 +55,7 @@ public enum TransmissionOption: UInt8 {
     case extendedTransmissionTimeout = 0x40
 }
 
-// ZigBee Transmit Status
+// ZigBee Transmit Status Frame
 public enum DeliveryStatus: UInt8 {
     case success = 0x00
     case macACKFailure = 0x01

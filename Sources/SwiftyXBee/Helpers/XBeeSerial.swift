@@ -50,7 +50,7 @@ public struct XBeeSerial {
     
     // MARK: Private Methods
     private mutating func removeEscapeByteIfNeeded() {
-        guard let indexToRemove = data.firstIndex(where: { $0 == EscapedBytes.escape.rawValue }), let lastByte = data.last, indexToRemove != data.index(of: lastByte) else { return }
+        guard let indexToRemove = data.firstIndex(where: { $0 == EscapedBytes.escape.rawValue }), let lastByte = data.last, indexToRemove != data.firstIndex(of: lastByte) else { return }
         data.remove(at: indexToRemove)
         data[indexToRemove] = data[indexToRemove] ^ Constant.escapeByteXOR
     }

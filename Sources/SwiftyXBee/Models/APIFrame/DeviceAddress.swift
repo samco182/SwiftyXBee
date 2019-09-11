@@ -14,13 +14,11 @@ public enum SpecialDeviceAddress: UInt64 {
 
 public struct DeviceAddress {
     // MARK: Variables Declaration
-    private(set) var value: [UInt8] = []
+    private(set) var value: [UInt8]
     
     // MARK: Initializers
     public init(address: UInt64) {
-        for displacement in stride(from: 56, to: -8, by: -8) {
-            self.value.append(((address >> displacement) & Constant.hexConversionByte).uint8)
-        }
+        self.value = address.byteArray
     }
     
     public init(address: [UInt8]) {

@@ -13,13 +13,11 @@ public enum SpecialNetworkAddress: UInt16 {
 
 public struct NetworkAddress {
     // MARK: Variables Declaration
-    private(set) var value: [UInt8] = []
+    private(set) var value: [UInt8]
     
     // MARK: Initializers
     public init(address: UInt16) {
-        for displacement in stride(from: 8, to: -8, by: -8) {
-            self.value.append(((address >> displacement) & Constant.hexConversionByte.uint16).uint8)
-        }
+        self.value = address.byteArray
     }
     
     public init(address: [UInt8]) {
