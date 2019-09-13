@@ -44,8 +44,8 @@ public struct ZigBeeTransmitStatusData: BaseFrameData {
         self.frameId = getFrameId(from: rawData)
         self.destinationNetworkAddress = getDestinationNetworkAddress(from: rawData)
         self.transmitRetryCount = getTransmitRetryCount(from: rawData)
-        self.deliveryStatus = getDeliveryStatus(for: rawData)
-        self.discoveryStatus = getDiscoveryStatus(for: rawData)
+        self.deliveryStatus = getDeliveryStatus(from: rawData)
+        self.discoveryStatus = getDiscoveryStatus(from: rawData)
     }
     
     // MARK: Private Methods
@@ -53,7 +53,7 @@ public struct ZigBeeTransmitStatusData: BaseFrameData {
         return FrameType(rawValue: data[DataOffset.frameType])!
     }
     
-    private func getFrameId(from data:  [UInt8]) -> FrameId {
+    private func getFrameId(from data: [UInt8]) -> FrameId {
         return FrameId(rawValue: data[DataOffset.frameId])!
     }
     
@@ -66,11 +66,11 @@ public struct ZigBeeTransmitStatusData: BaseFrameData {
         return data[DataOffset.transmitRetryCount]
     }
     
-    private func getDeliveryStatus(for data: [UInt8]) -> DeliveryStatus {
+    private func getDeliveryStatus(from data: [UInt8]) -> DeliveryStatus {
         return DeliveryStatus(rawValue: data[DataOffset.deliveryStatus])!
     }
     
-    private func getDiscoveryStatus(for data: [UInt8]) -> DiscoveryStatus {
+    private func getDiscoveryStatus(from data: [UInt8]) -> DiscoveryStatus {
         return DiscoveryStatus(rawValue: data[DataOffset.discoveryStatus])!
     }
 }
