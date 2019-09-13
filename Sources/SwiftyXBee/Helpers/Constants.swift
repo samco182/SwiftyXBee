@@ -32,6 +32,7 @@ public enum FrameType: UInt8 {
     case transmitRequest = 0x10
     case transmitStatus = 0x8B
     case receivePacket = 0x90
+    case atCommand = 0x08
 }
 
 // ZigBee Receive Packet Frame

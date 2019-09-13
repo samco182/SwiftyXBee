@@ -73,6 +73,19 @@ public class SwiftyXBee {
         return try APIFrame(rawData: rawData, frameData: frameData)
     }
     
+    /// Sends an AT Command to configure/query the local radio's parameters.
+    ///
+    /// - Parameters:
+    ///   - command: The AT command to be sent
+    ///   - frameID: The packet's frame id
+    public func sendATCommand(_ command: ATCommand, frameID: FrameId = .sendACK) {
+        let frameData = ATCommandData(frameId: frameID, command: command)
+        let packetLength = FrameLength(for: frameData.serialData)
+        let checksum = Checksum(for: frameData.serialData)
+        let apiFrame = APIFrame<ATCommandData>(length: packetLength, frameData: frameData, checksum: checksum)
+        writeSerialData(apiFrame.serialData)
+    }
+    
     /// Reads the serial port.
     ///
     /// - Returns: All the available data in the serial port
