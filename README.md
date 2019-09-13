@@ -12,7 +12,7 @@
 ## Summary
 This is a [SwiftyGPIO](https://github.com/uraimo/SwiftyGPIO) based library for communicating with XBee radios in **API mode**, with support for Series 2 **only**.
 
-This is a **work in progress**. I started coding the library for a project I am currently working on, so, as of now, it only supports RX/TX and Transmit Status API Frames. If you want to contribute to this noble cause, please submit a PR and I will be more than happy to review it and merge it :smile:.
+This is a **work in progress**. I started coding the library for a project I am currently working on, so, as of now, it only supports ATCommand, ATCommandResponse, Tx, Rx, and Transmit Status API Frames. If you want to contribute to this noble cause, please submit a PR and I will be more than happy to review it and merge it :smile:.
 
 For more information regarding the RF module, you can consult its [datasheet](https://www.digi.com/resources/documentation/digidocs/pdfs/90002002.pdf).
 
@@ -44,14 +44,14 @@ The UART pins on the RaspberryPi (pin 14 TXD, pin 15 RXD) need to be enabled via
 ## Supported Boards
 Every board supported by [SwiftyGPIO](https://github.com/uraimo/SwiftyGPIO): RaspberryPis, BeagleBones, C.H.I.P., etc...
 
-To use this library, you'll need a Linux ARM board running [Swift 4.x](https://github.com/uraimo/buildSwiftOnARM) 🚗.
+To use this library, you'll need a Linux ARM board running [Swift 5.x](https://github.com/uraimo/buildSwiftOnARM) 🚗.
 
-The example below will use a Raspberry Pi 3B+  board, but you can easily modify the example to use one of the other supported boards. A full working demo project for the RaspberryPi3B+ is available in the **Example** directory.
+The examples below will use a Raspberry Pi 3B+  board, but you can easily modify the examples to use one of the other supported boards. Full working demo projects for the RaspberryPi3B+ are available under the **Examples** directory.
 
 ## Installation
-First of all, makes sure your board is running **Swift 4.x** ⚠️!
+First of all, makes sure your board is running **Swift 5.x** ⚠️!
 
-Since Swift 4.x supports Swift Package Manager, you only need to add SwiftXBee as a dependency in your project's `Package.swift` file:
+Since Swift 5.x supports Swift Package Manager, you only need to add SwiftXBee as a dependency in your project's `Package.swift` file:
 
 ```swift
 let package = Package(
@@ -85,6 +85,30 @@ import SwiftyXBee
 let xbee = SwiftyXBee()
 ```
 This initializer defaults to `.RaspberryPi3` as the selected board and serial connection with `speed: .S9600`, `bitsPerChar: .Eight`, `stopBits: .One`, and `parity: .None)`.
+
+### AT Command Packet
+AT-type commands can be sent via API frames to configure your local radio. They can query the settings on the local radio or set parameters. These are all the same commands you typed in transparent/command mode.
+
+For this example, the local radio's *Node Identifier* parameter is been set and read.
+
+Setting AT Command parameter:
+``` swift
+// The new Node Identifier
+let nodeIdentifier = "XBee Test"
+
+xbee.sendATCommand(.addressing(.ni(.write(nodeIdentifier))), frameId: .sendNoACK)
+```
+Reading AT Command parameter:
+```swift
+xbee.sendATCommand(.addressing(.ni(.read)))
+
+do {
+    let atCommandResponse = try xbee.readATCommandResponse()
+    print("AT Command Response received: \(atCommandResponse.frameData.commandData) = \(atCommandResponse.frameData.commandData.string)")
+} catch let error {
+    print("Error receiving packet: \(error)")
+}
+```
 
 ### Transmit Packets
 There a several different types of transmit (TX) packets available. But as mentioned above, as of now, the library only allows **Transmit Request**  packets to be sent. A list of all TX packets can be found in the API [documentation](https://www.digi.com/resources/documentation/digidocs/pdfs/90002002.pdf). All classes that end in "Request" are TX packets.

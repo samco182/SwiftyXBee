@@ -42,3 +42,9 @@ public struct APIFrame<T: BaseFrameData> {
         self.checksum = checksum
     }
 }
+
+extension APIFrame: SerialWritable where T: EscapedSerialWritable {
+    public var serialData: [CChar] {
+        return delimiter.serialData + length.escapedSerialData + frameData.escapedSerialData + checksum.escapedSerialData
+    }
+}

@@ -38,8 +38,8 @@ public struct ZigBeeReceivePacketData: BaseFrameData {
         self.frameType = getFrameType(from: rawData)
         self.sourceDeviceAddress = getSourceDeviceAddress(from: rawData)
         self.sourceNetworkAddress = getSourceNetworkAddress(from: rawData)
-        self.receiveOptions = getReceiveOptions(for: rawData)
-        self.receivedData = getReceivedData(for: rawData)
+        self.receiveOptions = getReceiveOptions(from: rawData)
+        self.receivedData = getReceivedData(from: rawData)
     }
     
     // MARK: Private Methods
@@ -57,11 +57,11 @@ public struct ZigBeeReceivePacketData: BaseFrameData {
         return NetworkAddress(address: sourceAddress)
     }
     
-    private func getReceiveOptions(for data: [UInt8]) -> ReceiveOptions? {
+    private func getReceiveOptions(from data: [UInt8]) -> ReceiveOptions? {
         return ReceiveOptions(rawValue: data[DataOffset.receiveOptions])
     }
     
-    private func getReceivedData(for data: [UInt8]) -> String {
+    private func getReceivedData(from data: [UInt8]) -> String {
         let receivedData = data.enumerated().filter({ $0.offset >= DataOffset.receivedData && $0.offset < data.endIndex - 1}).map({ $0.element })
         return String(bytes: receivedData, encoding: .utf8) ?? ""
     }

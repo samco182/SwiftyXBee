@@ -7,7 +7,13 @@
 
 import Foundation
 
-extension Array where Element == UInt8 {
+public extension Array where Element == UInt8 {
+    /// String representation of byte array
+    var string: String {
+        guard let string = String(bytes: self, encoding: .utf8) else { return "" }
+        return string
+    }
+    
     /// Adds up all the elements in an array of UInt8.
     ///
     /// - Returns: The sum of all the elements
