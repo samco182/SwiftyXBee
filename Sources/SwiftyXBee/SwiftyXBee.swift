@@ -86,6 +86,16 @@ public class SwiftyXBee {
         writeSerialData(apiFrame.serialData)
     }
     
+    /// Reads and process an AT Command response
+    ///
+    /// - Returns: An AT Command Response Frame
+    /// - Throws: Any error while reading the RF data packet
+    public func readATCommandResponse() throws -> APIFrame<ATCommandResponseData> {
+        let rawData = try readSerialData()
+        let frameData = ATCommandResponseData(rawData: rawData)
+        return try APIFrame(rawData: rawData, frameData: frameData)
+    }
+    
     /// Reads the serial port.
     ///
     /// - Returns: All the available data in the serial port
