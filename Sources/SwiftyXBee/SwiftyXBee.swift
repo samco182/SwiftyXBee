@@ -78,8 +78,8 @@ public class SwiftyXBee {
     /// - Parameters:
     ///   - command: The AT command to be sent
     ///   - frameID: The packet's frame id
-    public func sendATCommand(_ command: ATCommand, frameID: FrameId = .sendACK) {
-        let frameData = ATCommandData(frameId: frameID, command: command)
+    public func sendATCommand(_ command: ATCommand, frameId: FrameId = .sendACK) {
+        let frameData = ATCommandData(frameId: frameId, command: command)
         let packetLength = FrameLength(for: frameData.serialData)
         let checksum = Checksum(for: frameData.serialData)
         let apiFrame = APIFrame<ATCommandData>(length: packetLength, frameData: frameData, checksum: checksum)
