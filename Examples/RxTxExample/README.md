@@ -1,6 +1,6 @@
-# SwiftyXBeeExample
+# RxTxExample
 
-A simple example of how to communicate with XBee (ZigBee Series 2) radios in API mode.
+A simple example of how to use XBee Rx and Tx API Frames. XBee (ZigBee Series 2) radios must be configured in API mode and **AP mode set to 2 (escape bytes)**.
 
 ⚠️ If you want to run the example code, make sure to use an actual XBee serial number when defining:
 ```swift

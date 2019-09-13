@@ -32,6 +32,8 @@ public enum FrameType: UInt8 {
     case transmitRequest = 0x10
     case transmitStatus = 0x8B
     case receivePacket = 0x90
+    case atCommand = 0x08
+    case atCommandResponse = 0x88
 }
 
 // ZigBee Receive Packet Frame
@@ -55,7 +57,7 @@ public enum TransmissionOption: UInt8 {
     case extendedTransmissionTimeout = 0x40
 }
 
-// ZigBee Transmit Status
+// ZigBee Transmit Status Frame
 public enum DeliveryStatus: UInt8 {
     case success = 0x00
     case macACKFailure = 0x01
@@ -82,4 +84,13 @@ public enum DiscoveryStatus: UInt8 {
     case routeDiscovery = 0x02
     case addressAndRoute = 0x03
     case extendedTimeoutDiscovery = 0x40
+}
+
+// AT Command Response Frame
+public enum ATCommandStatus: UInt8 {
+    case ok = 0x00
+    case error = 0x01
+    case invalidCommand = 0x02
+    case invalidParameter = 0x03
+    case txFailure = 0x04
 }
