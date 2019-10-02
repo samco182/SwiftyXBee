@@ -11,6 +11,7 @@
     import Darwin.C
 #endif
 
+import Foundation
 import SwiftyGPIO
 
 public class SwiftyXBee {
@@ -53,22 +54,24 @@ public class SwiftyXBee {
     
     /// Reads and process an RF data packet.
     ///
+    /// - Parameter maxTimeout: The maximum time to wait before checking the serial port for data
     /// - Returns: A Receive Packet API Frame
     /// - Throws: Any error while reading the RF data packet
-    public func readRFDataPacket() throws -> APIFrame<ZigBeeReceivePacketData> {
-        let rawData = try readSerialData()
+    public func readRFDataPacket(maxTimeout: TimeInterval = Constant.defaultReadDataTimeout) throws -> APIFrame<ZigBeeReceivePacketData> {
+        let rawData = try readSerialData(maxTimeout: maxTimeout)
         let frameData = ZigBeeReceivePacketData(rawData: rawData)
         return try APIFrame(rawData: rawData, frameData: frameData)
     }
     
     /// Reads the transmission status after issuing a Transmit Request API Frame.
     ///
+    /// - Parameter maxTimeout: The maximum time to wait before checking the serial port for data
     /// - Returns: A Transmit Status API Frame
     /// - Throws: Any error while reading the transmit status packet
     /// - Note: If delivery status is 0x00, the transmission was successfully delivered to the destination address.
     ///         Otherwise, the number received in this byte will indicate the kind of issue that prevented the delivery.
-    public func readTransmitStatus() throws -> APIFrame<ZigBeeTransmitStatusData> {
-        let rawData = try readSerialData()
+    public func readTransmitStatus(maxTimeout: TimeInterval = Constant.defaultReadDataTimeout) throws -> APIFrame<ZigBeeTransmitStatusData> {
+        let rawData = try readSerialData(maxTimeout: maxTimeout)
         let frameData = ZigBeeTransmitStatusData(rawData: rawData)
         return try APIFrame(rawData: rawData, frameData: frameData)
     }
@@ -88,20 +91,22 @@ public class SwiftyXBee {
     
     /// Reads and process an AT Command response
     ///
+    /// - Parameter maxTimeout: The maximum time to wait before checking the serial port for data
     /// - Returns: An AT Command Response Frame
     /// - Throws: Any error while reading the RF data packet
-    public func readATCommandResponse() throws -> APIFrame<ATCommandResponseData> {
-        let rawData = try readSerialData()
+    public func readATCommandResponse(maxTimeout: TimeInterval = Constant.defaultReadDataTimeout) throws -> APIFrame<ATCommandResponseData> {
+        let rawData = try readSerialData(maxTimeout: maxTimeout)
         let frameData = ATCommandResponseData(rawData: rawData)
         return try APIFrame(rawData: rawData, frameData: frameData)
     }
     
     /// Reads the serial port.
     ///
+    /// - Parameter maxTimeout: The maximum time to wait before checking the serial port for data
     /// - Returns: All the available data in the serial port
-    /// - Throws:  Any errors while reading the serial port
-    public func readSerialData() throws -> [UInt8] {
-        return try serial.readData(from: uart)
+    /// - Throws: Any errors while reading the serial port
+    public func readSerialData(maxTimeout: TimeInterval = Constant.defaultReadDataTimeout) throws -> [UInt8] {
+        return try serial.readData(from: uart, maxTimeout: maxTimeout)
     }
     
     /// Writes data to the serial port.

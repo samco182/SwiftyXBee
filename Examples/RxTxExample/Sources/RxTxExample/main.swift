@@ -8,7 +8,7 @@ let xbee = SwiftyXBee(for: .RaspberryPi3, serialConnection: serialConnection)
 print("Receiving packet...")
 
 do {
-    let readingPacket = try xbee.readRFDataPacket()
+    let readingPacket = try xbee.readRFDataPacket(maxTimeout: 5) // Wait up to 5 seconds for available data
     print("Packet received: \(readingPacket.frameData.receivedData)")
 } catch let error {
     print("Error receiving packet: \(error)")

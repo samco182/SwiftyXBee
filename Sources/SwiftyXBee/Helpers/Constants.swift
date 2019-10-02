@@ -8,6 +8,7 @@
 import Foundation
 
 public enum Constant {
+    public static let defaultReadDataTimeout: Double = 1
     public static let minimumRawDataLength = 4
     public static let startDelimiter: UInt8 = 0x7E
     public static let escapeByteXOR: UInt8 = 0x20
