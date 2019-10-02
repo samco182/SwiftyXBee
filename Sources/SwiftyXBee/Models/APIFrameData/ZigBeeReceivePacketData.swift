@@ -44,7 +44,7 @@ public struct ZigBeeReceivePacketData: BaseFrameData {
     
     // MARK: Private Methods
     private func getFrameType(from data: [UInt8]) -> FrameType {
-        return FrameType(rawValue: data[DataOffset.frameType])!
+        return FrameType(rawValue: data[DataOffset.frameType]) ?? .receivePacket
     }
     
     private func getSourceDeviceAddress(from data: [UInt8]) -> DeviceAddress {
