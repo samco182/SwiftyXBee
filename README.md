@@ -57,7 +57,7 @@ Since Swift 5.x supports Swift Package Manager, you only need to add SwiftXBee a
 let package = Package(
     name: "MyProject",
     dependencies: [
-        .package(url: "https://github.com/samco182/SwiftyXBee", from: "1.0.0"),
+        .package(url: "https://github.com/samco182/SwiftyXBee", from: "2.0.0-beta1"),
     ]
     targets: [
         .target(
@@ -75,7 +75,7 @@ The first thing is to initialize an instance of `SwiftyXBee` with the same UART 
 ```swift
 import SwiftyXBee
 
-let serial = SerialConnection(speed: .S9600, bitsPerChar: .Eight, stopBits: .One, parity: .None)
+let serial = SerialConnection(speed: .s9600, bitsPerChar: .eight, stopBits: .one, parity: .none)
 let xbee = SwiftyXBee(for: .RaspberryPi3, serialConnection: serial)
 ```
 You can also initialize the `XBee` object with the following method:
@@ -84,7 +84,7 @@ import SwiftyXBee
 
 let xbee = SwiftyXBee()
 ```
-This initializer defaults to `.RaspberryPi3` as the selected board and serial connection with `speed: .S9600`, `bitsPerChar: .Eight`, `stopBits: .One`, and `parity: .None)`.
+This initializer defaults to `.RaspberryPi3` as the selected board and serial connection with `speed: .s9600`, `bitsPerChar: .eight`, `stopBits: .one`, and `parity: .none)`.
 
 ### AT Command Packet
 AT-type commands can be sent via API frames to configure your local radio. They can query the settings on the local radio or set parameters. These are all the same commands you typed in transparent/command mode.
