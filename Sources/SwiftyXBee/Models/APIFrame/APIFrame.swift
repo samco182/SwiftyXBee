@@ -9,6 +9,8 @@ import Foundation
 
 public enum APIFrameError: Error {
     case rawDataIsNotAPIFrame
+    case startDelimiterNotAvailable
+    case checksumNotAvailable
 }
 
 public struct APIFrame<T: BaseFrameData> {
@@ -29,10 +31,13 @@ public struct APIFrame<T: BaseFrameData> {
     // MARK: Initializers
     public init(rawData: [UInt8], frameData: T) throws {
         guard rawData.count > Constant.minimumRawDataLength else { throw APIFrameError.rawDataIsNotAPIFrame }
-        self.delimiter = StartDelimiter(for: rawData.first!)
+        guard let startDelimeter = rawData.first else { throw APIFrameError.startDelimiterNotAvailable }
+        guard let checksum = rawData.last else { throw APIFrameError.checksumNotAvailable }
+        
+        self.delimiter = StartDelimiter(for: startDelimeter)
         self.length = FrameLength(for: rawData)
         self.frameData = frameData
-        self.checksum = Checksum(for: rawData.last!)
+        self.checksum = Checksum(for: checksum)
     }
     
     public init(delimiter: StartDelimiter = StartDelimiter(), length: FrameLength, frameData: T, checksum: Checksum) {

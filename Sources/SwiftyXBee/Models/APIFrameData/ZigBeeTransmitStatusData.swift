@@ -50,11 +50,11 @@ public struct ZigBeeTransmitStatusData: BaseFrameData {
     
     // MARK: Private Methods
     private func getFrameType(from data: [UInt8]) -> FrameType {
-        return FrameType(rawValue: data[DataOffset.frameType])!
+        return FrameType(rawValue: data[DataOffset.frameType]) ?? .transmitStatus
     }
     
-    private func getFrameId(from data: [UInt8]) -> FrameId {
-        return FrameId(rawValue: data[DataOffset.frameId])!
+    private func getFrameId(from data: [UInt8]) -> FrameId? {
+        return FrameId(rawValue: data[DataOffset.frameId])
     }
     
     private func getDestinationNetworkAddress(from data: [UInt8]) -> NetworkAddress {
@@ -66,11 +66,11 @@ public struct ZigBeeTransmitStatusData: BaseFrameData {
         return data[DataOffset.transmitRetryCount]
     }
     
-    private func getDeliveryStatus(from data: [UInt8]) -> DeliveryStatus {
-        return DeliveryStatus(rawValue: data[DataOffset.deliveryStatus])!
+    private func getDeliveryStatus(from data: [UInt8]) -> DeliveryStatus? {
+        return DeliveryStatus(rawValue: data[DataOffset.deliveryStatus])
     }
     
-    private func getDiscoveryStatus(from data: [UInt8]) -> DiscoveryStatus {
-        return DiscoveryStatus(rawValue: data[DataOffset.discoveryStatus])!
+    private func getDiscoveryStatus(from data: [UInt8]) -> DiscoveryStatus? {
+        return DiscoveryStatus(rawValue: data[DataOffset.discoveryStatus])
     }
 }

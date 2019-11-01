@@ -5,10 +5,12 @@
 //  Created by Samuel Cornejo on 7/13/19.
 //
 
+import Foundation
 import SwiftyGPIO
 
 enum XBeeSerialError: Error {
     case checksumFailure
+    case noSerialDataAvailable
 }
 
 public struct XBeeSerial {
@@ -24,12 +26,17 @@ public struct XBeeSerial {
     
     /// Reads all the available bytes in the serial port.
     ///
-    /// - Parameter serial: The serial port to extract data from
+    /// - Parameters:
+    ///   - serial: The serial port to extract data from
+    ///   - maxTimeout: The maximum time to wait for data availability
     /// - Returns: All the bytes extracted from the serial port
     /// - Throws: Serial port reading errors
-    public mutating func readData(from serial: UARTInterface) throws -> [UInt8] {
-        data = []
+    public mutating func readData(from serial: UARTInterface, maxTimeout: TimeInterval) throws -> [UInt8] {
+        let start = Date()
+        while try !serial.hasAvailableData() && abs(start.timeIntervalSinceNow) < maxTimeout { }
+        guard try serial.hasAvailableData() else { throw XBeeSerialError.noSerialDataAvailable }
         
+        data = []
         while try dataIsIncomplete() {
             let readData = serial.readData().map({ UInt8(bitPattern: $0) })
             data += readData

@@ -8,6 +8,7 @@
 import Foundation
 
 public enum Constant {
+    public static let defaultReadDataTimeout: Double = 1
     public static let minimumRawDataLength = 4
     public static let startDelimiter: UInt8 = 0x7E
     public static let escapeByteXOR: UInt8 = 0x20
@@ -62,7 +63,10 @@ public enum DeliveryStatus: UInt8 {
     case success = 0x00
     case macACKFailure = 0x01
     case ccaFailure = 0x02
+    case packetPurgedWithoutTransmission = 0x03
+    case wifiTransceiverPhysicalError = 0x04
     case invalidDestinationEndpoint = 0x15
+    case noBuffers = 0x18
     case networkACKFailure = 0x21
     case notJoinedToNetwork = 0x22
     case selfAddressed = 0x23
@@ -70,12 +74,15 @@ public enum DeliveryStatus: UInt8 {
     case routeNotFound = 0x25
     case broadcastFailedToHear = 0x26
     case invalidBindingTableIndex = 0x2B
-    case resourceError = 0x2C
+    case invalidEndpoint = 0x2C
     case attemptedBroadcastWithAPS = 0x2D
     case attemptedUnicastWithAPS = 0x2E
-    case lackOfFreeBuffer = 0x32
+    case softwareError = 0x31
+    case resourceError = 0x32
     case dataPayloadTooLarge = 0x74
     case indirectMessageUnrequested = 0x75
+    case clientSocketCreationFailed = 0x76
+    case keyNotAuthorized = 0xBB
 }
 
 public enum DiscoveryStatus: UInt8 {

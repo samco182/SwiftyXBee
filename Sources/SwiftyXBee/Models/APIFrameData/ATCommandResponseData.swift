@@ -45,7 +45,7 @@ public struct ATCommandResponseData: BaseFrameData {
     
     // MARK: Private Methods
     private func getFrameType(from data: [UInt8]) -> FrameType {
-        return FrameType(rawValue: data[DataOffset.frameType])!
+        return FrameType(rawValue: data[DataOffset.frameType]) ?? .atCommandResponse
     }
     
     private func getFrameId(from data: [UInt8]) -> FrameId? {
