@@ -1,7 +1,7 @@
 import SwiftyXBee
 
 // Initialize xbee instance
-let serialConnection = SerialConnection(speed: .S9600, bitsPerChar: .Eight, stopBits: .One, parity: .None)
+let serialConnection = SerialConnection(speed: .s9600, bitsPerChar: .eight, stopBits: .one, parity: .none)
 let xbee = SwiftyXBee(for: .RaspberryPi3, serialConnection: serialConnection)
 
 // Reading a Receive Packet API Frame
