@@ -23,7 +23,8 @@ public class SwiftyXBee {
     public init(for board: SupportedBoard, serialConnection: SerialConnection = SerialConnection()) {
         let uarts = SwiftyGPIO.UARTs(for: board)!
         self.uart = uarts[0]
-        self.uart.configureInterface(speed: serialConnection.speed, bitsPerChar: serialConnection.bitsPerChar, stopBits: serialConnection.stopBits, parity: serialConnection.parity)
+        
+        self.configureUARTInterface(with: serialConnection)
     }
     
     public convenience init() {
@@ -114,5 +115,14 @@ public class SwiftyXBee {
     /// - Parameter data: The data to be written to the serial port
     public func writeSerialData(_ data: [CChar]) {
         serial.writeData(data, to: uart)
+    }
+    
+    // MARK: Private Methods
+    private func configureUARTInterface(with serialConnection: SerialConnection) {
+        do {
+            try uart.configureInterface(speed: serialConnection.speed, bitsPerChar: serialConnection.bitsPerChar, stopBits: serialConnection.stopBits, parity: serialConnection.parity)
+        } catch let error {
+            print("Error configuring UART interface: \(error)")
+        }
     }
 }

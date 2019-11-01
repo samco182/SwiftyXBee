@@ -38,7 +38,7 @@ public struct XBeeSerial {
         
         data = []
         while try dataIsIncomplete() {
-            let readData = serial.readData().map({ UInt8(bitPattern: $0) })
+            let readData = try serial.readData().map({ UInt8(bitPattern: $0) })
             data += readData
             removeEscapeByteIfNeeded()
         }

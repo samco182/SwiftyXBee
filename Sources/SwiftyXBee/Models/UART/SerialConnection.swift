@@ -15,7 +15,7 @@ public struct SerialConnection {
     public let parity: ParityType
     
     // MARK: Initializer
-    public init(speed: UARTSpeed = .S9600, bitsPerChar: CharSize = .Eight, stopBits: StopBits = .One, parity: ParityType = .None) {
+    public init(speed: UARTSpeed = .s9600, bitsPerChar: CharSize = .eight, stopBits: StopBits = .one, parity: ParityType = .none) {
         self.speed = speed
         self.bitsPerChar = bitsPerChar
         self.stopBits = stopBits
