@@ -9,8 +9,9 @@ import Foundation
 import SwiftyGPIO
 
 enum XBeeSerialError: Error {
-    case checksumFailure
-    case noSerialDataAvailable
+    case dataChecksumFailure
+    case noDataAvailable
+    case corruptedData
 }
 
 public struct XBeeSerial {
@@ -34,10 +35,12 @@ public struct XBeeSerial {
     public mutating func readData(from serial: UARTInterface, maxTimeout: TimeInterval) throws -> [UInt8] {
         let start = Date()
         while try !serial.hasAvailableData() && abs(start.timeIntervalSinceNow) < maxTimeout { }
-        guard try serial.hasAvailableData() else { throw XBeeSerialError.noSerialDataAvailable }
+        guard try serial.hasAvailableData() else { throw XBeeSerialError.noDataAvailable }
         
         data = []
-        while try dataIsIncomplete() {
+        while try isDataIncomplete() {
+            guard try serial.hasAvailableData() else { throw XBeeSerialError.corruptedData }
+            
             let readData = serial.readData().map({ UInt8(bitPattern: $0) })
             data += readData
             removeEscapeByteIfNeeded()
@@ -62,9 +65,9 @@ public struct XBeeSerial {
         data[indexToRemove] = data[indexToRemove] ^ Constant.escapeByteXOR
     }
     
-    public func dataIsIncomplete() throws -> Bool {
+    public func isDataIncomplete() throws -> Bool {
         guard data.count > Constant.checksumExcludedBytesCount, data.count == data[LengthConstant.msbIndex] + data[LengthConstant.lsbIndex] + LengthConstant.totalExcludedBytes else { return true }
-        guard isValidChecksum() else { throw XBeeSerialError.checksumFailure }
+        guard isValidChecksum() else { throw XBeeSerialError.dataChecksumFailure }
         return false
     }
     
